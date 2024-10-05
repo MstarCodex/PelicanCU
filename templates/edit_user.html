@@ -1,0 +1,165 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="static/css/chatbot.css">
+  <title>Edit User</title>
+  <style>
+ <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      padding: 20px;
+    }
+
+    .edit-user-form {
+      background-color: white;
+      border: 1px solid #e1e4e8;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-user-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .form-group input[type="file"] {
+      border: none;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+<body>
+<div class="edit-user-form">
+    <h2>Edit User - {{ user.username }}</h2>
+
+    <form method="POST" action="{{ url_for('edit_user', user_id=user.id) }}">
+        <!-- User Information Fields -->
+        <div class="form-group">
+        <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{ user.username }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone" name="phone_number" value="{{ user.phone_number }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="account_type">Account Type:</label>
+        <select id="accountType"" name="account_type" required>
+            <option value="Savings" {% if user.account_type == 'Savings' %}selected{% endif %}>Savings</option>
+            <option value="Current" {% if user.account_type == 'Current' %}selected{% endif %}>Current</option>
+            </select><br></div>
+<br>
+        <div class="form-group">
+        <label for="balance">Balance:</label>
+            <input type="number" name="balance" value="{{ user.balance }}" step="0.01" required><br></div>
+<br>
+        <label for="income">Income:</label>
+        <input type="number" name="income" value="{{ user.income }}" step="0.01" required><br>
+<br>
+        <div class="form-group">
+        <label for="debits">Debits:</label>
+            <input type="number" name="debits" value="{{ user.debits }}" step="0.01" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="full_name">Full Name:</label>
+            <input type="text" id="fullName" name="full_name" value="{{ user.full_name }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="date_of_birth">Date of Birth:</label>
+            <input type="date" id="dob" name="date_of_birth" value="{{ user.date_of_birth }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="residential_address">Residential Address:</label>
+            <input type="text" id="residentialAddress" name="residential_address" value="{{ user.residential_address }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="marital_status">Marital Status:</label>
+        <select id="maritalStatus" name="marital_status" required>
+            <option value="Single" {% if user.marital_status == 'Single' %}selected{% endif %}>Single</option>
+            <option value="Married" {% if user.marital_status == 'Married' %}selected{% endif %}>Married</option>
+        </select><br></div>
+<br>
+        <div class="form-group">
+        <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" name="occupation" value="{{ user.occupation }}" required><br></div>
+<br>
+        <div class="form-group">
+        <label for="debit_card_number">Debit Card Number:</label>
+            <input type="text" id="debitCardNumber" name="debit_card_number" value="{{ user.debit_card_number }}" required><br></div>
+<br><div class="form-group">
+        <!-- Crypto Addresses -->
+        <h3>Crypto Addresses</h3></div>
+<br>
+        <div class="form-group">
+        <label for="bitcoin_address">Bitcoin Address:</label>
+            <input type="text" id="bitcoinAddress" name="bitcoin_address" value="{{ user.bitcoin_address }}"><br></div>
+<br>
+        <div class="form-group">
+        <label for="ethereum_address">Ethereum Address:</label>
+            <input type="text" id="ethereumAddress" name="ethereum_address" value="{{ user.ethereum_address }}"><br></div>
+<br>
+        <div class="form-group">
+        <label for="usdt_erc20_address">USDT (ERC20) Address:</label>
+            <input type="text" id="usdtErc20" name="usdt_erc20_address" value="{{ user.usdt_erc20_address }}"><br></div>
+<br>
+        <div class="form-group">
+        <label for="usdt_trc20_address">USDT (TRC20) Address:</label>
+            <input type="text" id="usdtTrc20" name="usdt_trc20_address" value="{{ user.usdt_trc20_address }}"><br></div>
+        <br>
+        <div class="form-group">
+        <label>Passport Photo:</label><br>
+            <input type="file" id="passportPhoto" name="passport_photo"><br></div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+            <button type="submit">Update User</button></div>
+    </form>
+
+    <br>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+</div>
+</body>
+</html>

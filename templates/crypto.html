@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Pelican - Money Transfer and Online Payments HTML Template</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}" />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style2.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <!-- Internal Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 20vh;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+        }
+        .headers {
+            background: linear-gradient(to right, #6b46c1, #3182ce);
+            color: white;
+            padding: 5px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .headers h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .headers p {
+            margin: 8px 0 0;
+            font-size: 14px;
+        }
+        .address-section {
+            margin-top: 50px;
+        }
+        .label {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .address-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9fafb;
+            margin-bottom: 16px;
+        }
+        .address-text {
+            color: #555;
+        }
+        .copy-btn {
+            background-color: #6b46c1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background-color: #5a379d;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Main Wrapper -->
+<div id="main-wrapper">
+    <div id="chatbot" onclick="toggleChatbox()">💬</div>
+
+    <!-- Chatbox -->
+    <div id="chatbox-container" style="display:none;">
+        <div id="chatbox-header">Chat with Us!</div>
+        <div id="chatbox-messages"></div>
+        <div id="chatbox-input">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Header Start -->
+    <header class="header02">
+        <div class="header-main">
+            <div class="container d-flex align-items-center">
+                <!-- Logo -->
+                <a class="logo d-inline-flex" href="{{ url_for('user_dashboard') }}">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" />
+                </a>
+                <!-- Navigation Menu -->
+                <nav class="primary-menu ml-auto">
+                    <a id="mobile-menu-toggler" href="#"><i class="fas fa-bars"></i></a>
+                    <ul>
+                        <li class="current-menu-item has-menu-child">
+                            <a href="{{ url_for('user_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="current-menu-item">
+                            <a href="{{ url_for('crypto') }}">Crypto</a>
+                        </li>
+                        <li class="has-menu-child">
+                            <a href="#">KYC</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('kyc_application') }}">KYC Application</a></li>
+                                <li><a href="{{ url_for('kyc_details') }}">KYC Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-menu-child">
+                            <a href="#">Transfer</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('send_money') }}">Send Money</a></li>
+                                <li><a href="{{ url_for('transactions') }}">Transaction History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('loan') }}">Loan</a></li>
+                        <li class="has-menu-child pro-menu-drop">
+                            <a href="#">
+                                <div class="header-pro-thumb">
+                                    <img class="rounded-circle" src="/uploads/{{ user.passport_photo }}" alt="User" />
+                                </div>
+                                {{ user.username }} <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu-md sub-menu profile-drop">
+                                <li class="dropdown-header">
+                                    <h5 class="text-primary">{{ user.username }}</h5>
+                                    <div class="small text-muted"><span>Membership ID P14362606</span></div>
+                                </li>
+                                <li><a href="{{ url_for('profile') }}">View personal profile</a></li>
+                                <li><a href="{{ url_for('logout') }}"><i class="icon icon-logout"></i><span>Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- Crypto Deposit Section -->
+    <div class="container">
+        <div class="card">
+            <div class="headers">
+                <h1>Crypto Deposit Addresses</h1>
+                <p>Deposit your crypto securely</p>
+            </div>
+            <div class="address-section">
+                <!-- Ethereum Address -->
+                <label class="label" for="eth-address">Ethereum Address</label>
+                <div class="address-box">
+                    <span class="address-text">0x19d...130</span>
+                    <button class="copy-btn" onclick="copyAddress('0x19d6EB2ba0ca07520899F31B123845AF26e7A130')">Copy</button>
+                </div>
+                <!-- Bitcoin Address -->
+                <label class="label" for="btc-address">Bitcoin Address</label>
+                <div class="address-box">
+                    <span class="address-text">bc1q8p...tds</span>
+                    <button class="copy-btn" style="background-color: #f6ad55;" onclick="copyAddress('bc1q8plk7rxzeth6jqaheqnqywrtmk7lpnvuzyatds')">Copy</button>
+                </div>
+                <!-- USDT Address -->
+                <label class="label" for="usdt-address">USDT Address</label>
+                <div class="address-box">
+                    <span class="address-text">0x19d...130</span>
+                    <button class="copy-btn" style="background-color: #48bb78;" onclick="copyAddress('0x19d6EB2ba0ca07520899F31B123845AF26e7A130')">Copy</button>
+                </div>
+            </div>
+            <small style="color: red;">Once we confirm your payment and it's verified, your account will be funded.</small>
+        </div>
+    </div>
+</div>
+
+<!-- External JS Files -->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/daterangepicker.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
+<!-- Internal JS Functions -->
+<script>
+    function copyAddress(address) {
+        navigator.clipboard.writeText(address).then(() => {
+            alert('Address copied: ' + address);
+        });
+    }
+
+    const socket = io();
+
+    function toggleChatbox() {
+        const chatbox = document.getElementById('chatbox-container');
+        chatbox.style.display = chatbox.style.display === 'block' ?'none' : 'block';
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('message-input');
+        const messageText = messageInput.value.trim();
+
+        if (messageText) {
+            socket.emit('sendMessage', messageText);
+            messageInput.value = '';
+        }
+    }
+
+    socket.on('receiveMessage', (message) => {
+        const messageContainer = document.getElementById('chatbox-messages');
+        const newMessage = document.createElement('div');
+        newMessage.textContent = message;
+        newMessage.className = 'received-message';
+        messageContainer.appendChild(newMessage);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Pelican - Money Transfer and Online Payments HTML Template</title>
+    <link rel="shortcut icon" href="/static/images/favicon.svg" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+        }
+        #message_icon {
+            font-size: 30px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        #messages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Message Icon -->
+    <div id="message_icon">💬</div>
+
+    <!-- Chat Window -->
+    <div id="chat">
+        <div id="messages">
+            {% for message in messages %}
+                <div><strong>{{ message.sender }}</strong>: {{ message.content }} <em>{{ message.timestamp }}</em></div>
+            {% endfor %}
+        </div>
+        <input id="message_input" type="text" placeholder="Type your message here..." />
+        <button id="send_button">Send</button>
+    </div>
+
+    <!-- Header Start -->
+    <header class="header02">
+        <div class="header-main">
+            <div class="container d-flex align-items-center">
+                <a class="logo d-inline-flex" href="dashboard.html">
+                    <img src="/static/images/logo.svg" alt="Logo" />
+                </a>
+                <nav class="primary-menu ml-auto">
+                    <a id="mobile-menu-toggler" href="#"><i class="fas fa-bars"></i></a>
+                    <ul>
+                        <li class="current-menu-item has-menu-child">
+                            <a href="{{ url_for('user_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="current-menu-item"><a href="{{ url_for('crypto') }}">Crypto</a></li>
+                        <li class="has-menu-child">
+                            <a href="#">KYC</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('kyc_application') }}">KYC Application</a></li>
+                                <li><a href="{{ url_for('kyc_details') }}">KYC Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-menu-child">
+                            <a href="#">Transfer</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('send_money') }}">Send Money</a></li>
+                                <li><a href="{{ url_for('transactions') }}">Transaction History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('loan') }}">Loan</a></li>
+                        <li class="has-menu-child pro-menu-drop">
+                            <a href="#">
+                                <div class="header-pro-thumb">
+                                    <img class="rounded-circle" src="/uploads/{{ user.passport_photo }}" alt="Passport Photo" />
+                                </div>
+                                {{ user.username }} <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu-md sub-menu profile-drop">
+                                <li class="dropdown-header">
+                                    <div>
+                                        <h5 class="hidden-xs m-b-0 text-primary text-ellipsis">{{ user.username }}</h5>
+                                        <div class="small text-muted">
+                                            <span>Membership ID P14362606</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><hr class="mx-n3 mt-0" /></li>
+                                <li class="nav__create-new-profile-link">
+                                    <a href="{{ url_for('profile') }}">
+                                        <span>View Personal Profile</span>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="nav__dropdown-menu-items">
+                                    <a href="{{ url_for('logout') }}">
+                                        <i class="icon icon-logout"></i><span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Profile Bar -->
+    <div class="profilebar">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="balance-area">
+                        <select name="ctl00$ddlAccounts" class="custom-select" style="width: 200px">
+                            <option selected="selected" value="00">EUR Balance</option>
+                            <option value="01">GBP Balance</option>
+                            <option value="02">Prepaid Card - XXXX-2949</option>
+                            <option value="03">Prepaid Card - XXXX-9981</option>
+                            <option value="04" style="background-color: red; color: #fff">Prepaid Card - XXXX-6209</option>
+                        </select>
+                        <h1 class="total-balance">
+                            ${{ user.balance }}
+                            <a href="#" class="reload-btn"><i class="fas fa-sync"></i></a>
+                        </h1>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="local-time">
+                        <p><b>Local Time:</b> {{ current_time }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Profile Bar End -->
+
+    <!-- Admin Content Section -->
+    <div id="content" class="py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Left Sidebar -->
+                <aside class="col-lg-3 sidebar">
+                    <div class="widget admin-widget">
+                        <i class="fas fa-coins admin-overlay-icon"></i>
+                        <h2>Earn $25</h2>
+                        <p>Have questions or concerns?</p>
+                        <a href="#" class="btn btn-default btn-center"><span>Refer A Friend</span></a>
+                    </div>
+                    <div class="widget admin-widget">
+                        <i class="fas fa-comments admin-overlay-icon"></i>
+                        <h2>Need Help?</h2>
+                        <p>Have questions or concerns regarding your account?<br />Our experts are here to help!</p>
+                        <a href="https://apps.apple.com/app/id1085770229" class="btn btn-default btn-center"><span>Start Chat</span></a>
+                    </div>
+                </aside>
+                <!-- Left Sidebar End -->
+
+                <!-- Middle Panel -->
+                <div class="col-lg-9">
+                    <div class="profile-content">
+                        <h3 class="admin-heading bg-offwhite">
+                            <p>Recent Activity</p>
+                            <span>Pelican Activity</span>
+                        </h3>
+
+                        <!-- Admin Heading Title -->
+                        <div class="transaction-title bg-offwhite">
+                            <div class="items">
+                                <div class="row">
+                                    <div class="col"><span>Date</span></div>
+                                    <div class="col">Amount</div>
+                                    <div class="col text-center">Type</div>
+                                    <div class="col text-center">Bank</div>
+                                    <div class="col">Beneficiary</div>
+                                    <div class="col">Reference</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Admin Heading Title End -->
+
+                        <!-- Transaction List -->
+                        <div class="transaction-area">
+                            {% for transaction in transactions %}
+                            <div class="items">
+                                <a href="#">
+                                    <div class="row">
+                                        <div class="col pay-date">
+                                            <span class="date">{{ transaction.ref }}</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="name">{{ transaction.type_of_payment }}</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="payments-status text-warning">{{ transaction.scope }}</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="payment-amaount">- ${{ transaction.amount }}</span>
+                                        </div>
+                                        <div class="col pay-date">
+                                            <span class="date">{{ transaction.date }}</span>
+                                            <span class="currency">(USD)</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="name">{{ transaction.description }}</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="name">{{ transaction.beneficiary_account_holder }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Transaction List End -->
+
+                        <div class="row mt-3 py-4">
+                            <div class="col text-left">
+                                <a href="{{ url_for('transactions') }}" class="btn btn-default">View All<i class="fas fa-chevron-right"></i></a>
+                            </div>
+                            <div class="col text-right">
+                                <button class="btn btn-default mr-0 load-more-btn">
+                                    <span>Show more</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Middle Panel End -->
+            </div>
+        </div>
+    </div>
+    <!-- Content End -->
+
+    <!-- Scripts -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/daterangepicker.js"></script>
+    <script src="/static/js/bootstrap-select.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        const socket = io();
+
+        // Toggle chat visibility
+        document.getElementById('message_icon').onclick = () => {
+            const chat = document.getElementById('chat');
+            chat.style.display = (chat.style.display === 'none' || chat.style.display === '') ? 'block' : 'none';
+        };
+
+        // Send message function
+        document.getElementById('send_button').onclick = () => {
+            const input = document.getElementById('message_input');
+            const message = input.value;
+
+            if (message) {
+                const data = {
+                    sender: "User",  // Replace with actual user data if needed
+                    receiver: "Admin",  // Admin's username
+                    content: message
+                };
+
+                socket.emit('send_message', data);
+                input.value = ''; // Clear the input field
+            }
+        };
+
+        // Listen for incoming messages
+        socket.on('receive_message', (data) => {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${data.sender}</strong>: ${data.content}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+        });
+    </script>
+
+
+<script>
+    const socket = io();
+
+    // Function to load previous messages
+    const loadPreviousMessages = async () => {
+        const response = await fetch('/get_messages');
+        const messages = await response.json();
+        const messagesDiv = document.getElementById('messages');
+        messagesDiv.innerHTML = ''; // Clear existing messages
+        messages.forEach(message => {
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${message.sender}</strong>: ${message.content} <em>${message.timestamp}</em>`;
+            messagesDiv.appendChild(messageDiv);
+        });
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+    };
+
+    // Toggle chat visibility
+    document.getElementById('message_icon').onclick = () => {
+        const chat = document.getElementById('chat');
+        if (chat.style.display === 'none' || chat.style.display === '') {
+            chat.style.display = 'block';
+            loadPreviousMessages(); // Load messages when chat is opened
+        } else {
+            chat.style.display = 'none';
+        }
+    };
+
+    // Send message function
+    document.getElementById('send_button').onclick = () => {
+        const input = document.getElementById('message_input');
+        const message = input.value;
+
+        if (message) {
+            const data = {
+                sender: "{{ user.username }}",  // Use actual user data
+                receiver: "Admin",  // Admin's username
+                content: message
+            };
+
+            socket.emit('send_message', data);
+            input.value = ''; // Clear the input field
+        }
+    };
+
+    // Listen for incoming messages
+    socket.on('receive_message', (data) => {
+        const messagesDiv = document.getElementById('messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = `<strong>${data.sender}</strong>: ${data.content} <em>${data.timestamp}</em>`;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+    });
+</script>
+
+
+
+</body>
+
+</html>

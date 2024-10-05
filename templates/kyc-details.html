@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+<!-- Mirrored from demo.themenio.com/tokenwiz/kyc-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:14:41 GMT -->
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Pelican - Money Transfer and Online Payments HTML Template</title>
+    <link rel="shortcut icon" href="/static/images/favicon.svg" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <meta charset="utf-8"><meta name="author" content="Softnio"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="description" content="Fully featured and complete ICO Dashboard template for ICO backend management."><!-- Fav Icon --><link rel="shortcut icon" href="/static/images/favicon.png"><!-- Site Title  --><title>TokenWiz - ICO User Dashboard Admin Template</title>
+    <link rel="stylesheet" href="/static/assets/css/vendor.bundle49f7.css?ver=104">
+    <link rel="stylesheet" href="/static/assets/css/style49f7.css?ver=104" id="layoutstyle"></head> <div class="header-main">
+        <div id="main-wrapper">
+            <div id="chatbot" onclick="toggleChatbox()">💬</div>
+
+            <!-- Chatbox -->
+           <div id="chatbox-container" style="display:none;">
+            <div id="chatbox-header">Chat with Us!</div>
+            <div id="chatbox-messages"></div>
+            <div id="chatbox-input">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <button id="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        
+            <!-- Header start -->
+            <header class="header02">
+                
+
+                <!--header -->
+                <div class="header-main">
+                    <div class="container d-flex align-items-center">
+                        <a class="logo d-inline-flex" href="{{url_for('user_dashboard')}}">
+                            <img src="/static/images/logo.png" alt="" />
+                        </a>
+                        <nav class="primary-menu ml-auto">
+                            <a id="mobile-menu-toggler" href="#"><i class="fas fa-bars"></i></a>
+                            <ul>
+                                <li class="current-menu-item has-menu-child">
+                                    <a href="{{url_for('user_dashboard')}}">DashBoard</a>
+                                   
+                                </li>
+                                <li class="current-menu-item"><a href="{{url_for('crypto')}}">Crypto</a></li>
+                                <li class="has-menu-child">
+                                    <a href="#">KYC</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{url_for('kyc_application')}}">KYC Application</a></li>
+                                        <li><a href="{{url_for('kyc_details)}}">KYC Details</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li class="has-menu-child">
+                                    <a href="#">Transfer</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{url_for('send_money')}}">Send money</a></li>
+                                        <li><a href="{{url_for('transactions')}}">Transaction history</a></li>
+                                    </ul>
+                                </li>
+<!--                                <li class="has-menu-child">-->
+<!--                                    <a href="profile-cards.html">Virtual Card</a>-->
+<!--                                    &lt;!&ndash; <ul class="sub-menu">-->
+<!--                                        <li><a href="#">Blog</a></li>-->
+<!--                                        <li><a href="#">Blog Details</a></li>-->
+<!--                                    </ul> &ndash;&gt;-->
+<!--                                </li>-->
+                                <li><a href="{{url_for('loan')}}">Loan</a></li>
+                                <li class="has-menu-child pro-menu-drop">
+                                    <a href="#">
+                                        <div class="header-pro-thumb">
+                                            <img class="rounded-circle" src="/static/uploads/{{ user.passport_photo }}" alt="" />
+                                        </div>
+                                        {{ user.username }} <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu-md sub-menu profile-drop">
+                                        <li class="dropdown-header">
+                                            <div>
+                                                <h5 class="hidden-xs m-b-0 text-primary text-ellipsis">{{ user.username }}</h5>
+                                                <div class="small text-muted"><span>Membership ID P14362606</span></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <hr class="mx-n3 mt-0" />
+                                        </li>
+                                        <li class="nav__create-new-profile-link">
+                                            <a href="{{url_for('profile')}}">
+                                                <span>View personal profile</span>
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li class="nav__dropdown-menu-items">
+                                            <a href="{{url_for('profile')}}">
+                                                <i class="icon icon-setting"></i>
+                                                <span>Settings</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav__dropdown-menu-items">
+                                            <a href="{{url_for('logout')}}"><i class="icon icon-logout"></i><span>Logout</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!--end main header-->
+            </header><div class="flex-col d-sm-none"><a href="kyc-list.html" class="btn btn-icon btn-sm btn-primary"><em class="fas fa-arrow-left"></em></a></div><div class="relative d-inline-block"><a href="#" class="btn btn-dark btn-sm btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a><div class="toggle-class dropdown-content dropdown-content-top-left"><ul class="dropdown-list"><li><a href="#"><em class="ti ti-check"></em> Approve</a></li><li><a href="#"><em class="ti ti-na"></em> Cancel</a></li><li><a href="#"><em class="ti ti-trash"></em> Delete</a></li></ul></div></div></div></div><div class="gaps-1-5x"></div><div class="data-details d-md-flex flex-wrap align-items-center justify-content-between"><div class="fake-class"><span class="data-details-title">Submited By</span><span class="data-details-info">UD102001</span></div><div class="fake-class"><span class="data-details-title">Submited On</span><span class="data-details-info">2018-08-24 10:12PM</span></div><div class="fake-class"><span class="data-details-title">Checked By</span><span class="data-details-info">Admin</span></div><div class="fake-class"><span class="data-details-title">Checked On</span><span class="data-details-info">2018-08-24 10:12PM</span></div><div class="fake-class"><span class="badge badge-md badge-block badge-success ucap">Approved</span></div><div class="gaps-2x w-100 d-none d-md-block"></div><div class="w-100"><span class="data-details-title">Admin Note</span><span class="data-details-info">Verified by phone call</span></div></div><div class="gaps-3x"></div><h6 class="card-sub-title">Personal Information</h6><ul class="data-details-list"><li><div class="data-details-head">First Name</div><div class="data-details-des">Abu Bin</div></li><!-- li<li><div class="data-details-head">Last Name</div><div class="data-details-des">Ishtiyak</div></li><!-- li<li><div class="data-details-head">Email Address</div><div class="data-details-des">info(at)softnio.com</div></li><!-- li --><li><div class="data-details-head">Phone Number</div><div class="data-details-des">+880 01700 020203</div></li><!-- li --><li><div class="data-details-head">Date of Birth</div><div class="data-details-des">05 January, 1980</div></li><!-- li --><li><div class="data-details-head">Full Address</div><div class="data-details-des">Address Line 1, Address Line 2, City Name, Zipcode.</div></li><!-- li --><li><div class="data-details-head">Country of Residence</div><div class="data-details-des">Bangladesh</div></li><!-- li --><li><div class="data-details-head">Telegram Username</div><div class="data-details-des"><span>@icocrypto <em class="far fa-paper-plane"></em></span></div></li><!-- li --></ul><div class="gaps-3x"></div><h6 class="card-sub-title">Uploaded Documnets</h6><ul class="data-details-list"><li><div class="data-details-head">National ID Card</div><ul class="data-details-docs"><li><span class="data-details-docs-title">Front Side</span><div class="data-doc-item data-doc-item-lg"><div class="data-doc-image"><img src="/static/images/passport-a-fornt.jpg" alt="passport"></div><ul class="data-doc-actions"><li><a href="#"><em class="ti ti-import"></em></a></li></ul></div></li><!-- li --><li><span class="data-details-docs-title">Back Side</span><div class="data-doc-item data-doc-item-lg"><div class="data-doc-image"><img src="images/passport-a-back.jpg" alt="passport"></div><ul class="data-doc-actions"><li><a href="#"><em class="ti ti-import"></em></a></li></ul></div></li><!-- li --></ul></li><!-- li --></ul></div><!-- .card-innr --></div><!-- .card --></div><!-- .container --></div><!-- .page-content --><div class="footer-bar"><div class="container"><div class="row align-items-center justify-content-center"><div class="col-md-8"><ul class="footer-links"><li><a href="#">Whitepaper</a></li><li><a href="faq-page.html">FAQs</a></li><li><a href="regular-page.html">Privacy Policy</a></li><li><a href="regular-page.html">Terms of Condition</a></li></ul></div><!-- .col --><div class="col-md-4 mt-2 mt-sm-0"><div class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x"></li></ul></div></div></div></div><!-- .col --></div><!-- .row --></div> </div><!-- .container --></div><!-- .footer-bar --><!-- JavaScript (include all script here) --><script src="/static/assets/js/jquery.bundle49f7.js?ver=104"> </script>
+        <script src="/static/js/jquery.min.js"></script>
+            <script src="/static//js/bootstrap.bundle.min.js"></script>
+            <script src="/static/js/moment.min.js"></script>
+            <script src="/static/js/daterangepicker.js"></script>
+            <script src="/static/js/bootstrap-select.min.js"></script>
+            <script src="/static/js/custom.js"></script>
+            <script src="/static/js/chatbot.js"></script>
+            <script src="/static/assets/js/script49f7.js?ver=104"></script>
+
+<script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/daterangepicker.js"></script>
+    <script src="/static/js/bootstrap-select.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+
+    <script>
+        const socket = io();
+
+        function toggleChatbox() {
+            const chatbox = document.getElementById('chatbox-container');
+            chatbox.style.display = chatbox.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+
+            if (messageText) {
+                socket.emit('sendMessage', messageText);
+                messageInput.value = '';
+            }
+        }
+
+        socket.on('receiveMessage', (message) => {
+            const messageContainer = document.getElementById('chatbox-messages');
+            const newMessage = document.createElement('div');
+            newMessage.textContent = message;
+            newMessage.className = 'received-message';
+            messageContainer.appendChild(newMessage);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        });
+    </script>
+</body>
+<!-- Mirrored from demo.themenio.com/tokenwiz/kyc-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:14:41 GMT -->
+</html>

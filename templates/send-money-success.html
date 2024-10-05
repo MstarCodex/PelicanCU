@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from demo.themeies.com/roysha-html/admin-new/send-money-success.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:19:35 GMT -->
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Pelican - Money Transfer and Online Payments HTML Template</title>
+    <link rel="shortcut icon" href="/static/images/favicon.svg" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <!--TITLE-->
+        <title>Pelican- Money Transfer and Online Payments HTML Template</title>
+
+        <!-- Favicon icon -->
+        <link rel="shortcut icon" type="image/png" href="/static/images/favicon.svg" />
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+        <link rel="stylesheet" href="/static/css/chatbot.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+        }
+        #message_icon {
+            font-size: 30px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        #messages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    </head>
+    <body>
+        <!-- Preloader -->
+       
+
+        <!-- Document Wrapper -->
+        <div id="main-wrapper">
+            <div id="chatbot" onclick="toggleChatbox()">💬</div>
+
+            <!-- Chatbox -->
+      <div id="chat">
+        <div id="messages">
+            {% for message in messages %}
+                <div><strong>{{ message.sender }}</strong>: {{ message.content }} <em>{{ message.timestamp }}</em></div>
+            {% endfor %}
+        </div>
+        <input id="message_input" type="text" placeholder="Type your message here..." />
+        <button id="send_button">Send</button>
+    </div>
+            <!-- Header start -->
+            <header class="header02">
+                
+
+                <!--header -->
+                <div class="header-main">
+                    <div class="container d-flex align-items-center">
+                        <a class="logo d-inline-flex" href="{{url_for('user_dashboard')}}">
+                            <img src="/static/images/logo.svg" alt="" />
+                        </a>
+                        <nav class="primary-menu ml-auto">
+                            <a id="mobile-menu-toggler" href="#"><i class="fas fa-bars"></i></a>
+                            <ul>
+                                <li class="current-menu-item has-menu-child">
+                                    <a href="{{url_for('user_dashboard')}}">DashBoard</a>
+                                   
+                                </li>
+                                <li class="current-menu-item"><a href="{{url_for('crypto')}}">Crypto</a></li>
+                                <li class="has-menu-child">
+                                    <a href="#">KYC</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{url_for('kyc_application')}}">KYC Application</a></li>
+                                        <li><a href="{{url_for('kyc_details')}}">KYC Details</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li class="has-menu-child">
+                                    <a href="#">Transfer</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{url_for('send_money')}}">Send money</a></li>
+                                        <li><a href="{{url_for('transactions')}}">Transaction history</a></li>
+                                    </ul>
+                                </li>
+<!--                                <li class="has-menu-child">-->
+<!--                                    <a href="profile-cards.html">Virtual Card</a>-->
+<!--                                    &lt;!&ndash; <ul class="sub-menu">-->
+<!--                                        <li><a href="#">Blog</a></li>-->
+<!--                                        <li><a href="#">Blog Details</a></li>-->
+<!--                                    </ul> &ndash;&gt;-->
+<!--                                </li>-->
+                                <li><a href="{{url_for('loan')}}">Loan</a></li>
+                                <li class="has-menu-child pro-menu-drop">
+                                    <a href="#">
+                                        <div class="header-pro-thumb">
+                                            <img class="rounded-circle" src="/uploads/{{ user.passport_photo }}" alt="" />
+                                        </div>
+                                        {{user.username}} <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu-md sub-menu profile-drop">
+                                        <li class="dropdown-header">
+                                            <div>
+                                                <h5 class="hidden-xs m-b-0 text-primary text-ellipsis">{{user.username}}</h5>
+                                                <div class="small text-muted"><span>Membership ID P14362606</span></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <hr class="mx-n3 mt-0" />
+                                        </li>
+                                        <li class="nav__create-new-profile-link">
+                                            <a href="{{url_for('profile')}}">
+                                                <span>View personal profile</span>
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <!-- <li class="nav__dropdown-menu-items">
+                                            <a href="profile-notifications.html">
+                                                <i class="icon icon-setting"></i>
+                                                <span>Settings</span>
+                                            </a>
+                                        </li> -->
+                                        <li class="nav__dropdown-menu-items">
+                                            <a href="{{url_for('logout')}}"><i class="icon icon-logout"></i><span>Logout</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!--end main header-->
+            </header>
+            <!-- Header end -->
+
+            <!-- Admin Hero section-->
+            
+            <!-- Admin End of Hero section-->
+
+            <!-- Profile bar -->
+            <div class="profilebar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="balance-area">
+                                <select name="ctl00$ddlAccounts" class="custom-select" style="width: 200px">
+                                    <option selected="selected" value="00">EUR Balance</option>
+                                    <option value="01">GBP Balance</option>
+                                    <option value="02">└ Prepaid Card - XXXX-2949</option>
+                                    <option value="03">Prepaid Card - XXXX-9981</option>
+                                    <option value="04" style="background-color: red; color: #fff">Prepaid Card - XXXX-6209</option>
+                                </select>
+                                <h1 class="total-blance">
+                                    ${{user.balance}}
+                                    <a href="#" class="reload-btn"><i class="fas fa-sync"></i></a>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="local-time">
+                                <p><b>Local Time:</b> {{current_time}}</p>
+                            </div>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <div class="local-time">-->
+<!--                                <p><b>Last Visit:</b>1/12/2020 - 12:00PM</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="col notify-col text-right">
+                            <div class="notify-btn">
+                                <a href="profile-notifications.html"><i class="far fa-bell"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Profile bar -->
+
+            <!-- Content -->
+            <div id="content" class="py-4">
+                <div class="container">
+                    <div class="row">
+                        <!-- Left sidebar -->
+                        <aside class="col-lg-3 sidebar">
+                            
+
+                            <div class="widget admin-widget">
+                                <i class="fas fa-coins admin-overlay-icon"></i>
+                                <h2>Earn $25</h2>
+                                <p>Have questions or concerns regrading</p>
+                                <a href="#" class="btn btn-default btn-center"><span>Refer A friend</span></a>
+                            </div>
+
+                            <div class="widget admin-widget">
+                                <i class="fas fa-comments admin-overlay-icon"></i>
+                                <h2>Need Help?</h2>
+                                <p>
+                                    Have questions or concerns regrading your account?<br />
+                                    Our experts are here to help!.
+                                </p>
+                                <a href="https://apps.apple.com/app/id1085770229" class="btn btn-default btn-center"><span>Start Chat</span></a>
+                            </div>
+                        </aside>
+                        <!-- Left Panel End -->
+
+                        <div class="col-lg-9">
+                            <div class="profile-content">
+                                <h3 class="admin-heading">Send Money successfully</h3>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{url_for('send_money')}}">Send</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{url_for('send_money_details')}}">Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{url_for('send_money_confirm')}}">Confirm</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="{{url_for('send_money_success')}}">Success</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="bg-offwhite success form" id="print-section">
+            <div class="text-center">
+                <h1 class=""><i class="far fa-check-circle text-success"></i></h1>
+                <h3 class="text-success">Success!</h3>
+                <p class="">Transactions Complete</p>
+                <p class="">You've successfully sent <b>${{ last_transaction.amount }}</b> to <b>{{ last_transaction.beneficiary_account_holder }}</b></p>
+                <p>See transaction details under <a href="#">Activity</a></p>
+                <p>
+                    <span class="name"><b>Transaction ID:</b></span>
+                    <span class="decs">8974HSDB32056KSDS</span>
+                </p>
+                <hr />
+                <div class="invoice-option text-center mt-2">
+                    <a href="{{url_for('send_money_details')}}" class="invoice-btn"><i class="fas fa-print"></i>Print Receipt</a>
+                    <a href="#" class="invoice-btn"><i class="far fa-envelope"></i>Email Receipt</a>
+                </div>
+                <hr />
+                <a href="{{url_for('transactions')}}" class="btn btn-default mr-0 mt-5">
+                    <span class="bh"></span>
+                    <span>Go to Summary</span>
+                </a>
+                <!-- Add Print Button -->
+                <button onclick="printSection()" class="btn btn-default mt-3">
+                    <i class="fas fa-print"></i> Print This Page
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Content end -->
+
+       <script>
+function printSection() {
+    var printContent = document.getElementById("print-section").innerHTML;
+    var originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+}
+</script>
+            <!-- Footer end -->
+        </div>
+        <!-- Document Wrapper end -->
+
+        <!-- Script -->
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/js/moment.min.js"></script>
+        <script src="/static/js/daterangepicker.js"></script>
+        <script src="/static/js/bootstrap-select.min.js"></script>
+        <script src="/static/js/custom.js"></script>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/daterangepicker.js"></script>
+    <script src="/static/js/bootstrap-select.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+
+   <script>
+        const socket = io();
+
+        const loadPreviousMessages = async () => {
+            const response = await fetch('/get_messages');
+            const messages = await response.json();
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '';
+            messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.innerHTML = `<strong>${message.sender}</strong>: ${message.content} <em>${message.timestamp}</em>`;
+                messagesDiv.appendChild(messageDiv);
+            });
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        };
+
+        document.getElementById('message_icon').onclick = () => {
+            const chat = document.getElementById('chat');
+            if (chat.style.display === 'none' || chat.style.display === '') {
+                chat.style.display = 'block';
+                loadPreviousMessages();
+            } else {
+                chat.style.display = 'none';
+            }
+        };
+
+        document.getElementById('send_button').onclick = () => {
+            const input = document.getElementById('message_input');
+            const message = input.value;
+
+            if (message) {
+                const data = {
+                    sender: "{{ user.username }}",
+                    receiver: "Admin",
+                    content: message
+                };
+
+                socket.emit('send_message', data);
+                input.value = '';
+            }
+        };
+
+        socket.on('receive_message', (data) => {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${data.sender}</strong>: ${data.content} <em>${data.timestamp}</em>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
+    </body>
+
+<!-- Mirrored from demo.themeies.com/roysha-html/admin-new/send-money-success.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:19:35 GMT -->
+</html>

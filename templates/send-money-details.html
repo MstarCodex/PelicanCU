@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from demo.themeies.com/roysha-html/admin-new/send-money-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:19:35 GMT -->
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Pelican - Money Transfer and Online Payments HTML Template</title>
+    <link rel="shortcut icon" href="/static/images/favicon.svg" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <!--TITLE-->
+        <title>Pelican- Money Transfer and Online Payments HTML Template</title>
+
+        <!-- Favicon icon -->
+        <link rel="shortcut icon" type="image/png" href="/static/images/favicon.svg" />
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+        <link rel="stylesheet" href="/static/css/chatbot.css">
+    </head>
+
+    <body>
+        <!-- Preloader -->
+
+
+        <!-- Document Wrapper  -->
+        <div id="main-wrapper">
+            <div id="chatbot" onclick="toggleChatbox()">💬</div>
+
+            <!-- Chatbox -->
+           <div id="chatbox-container" style="display:none;">
+            <div id="chatbox-header">Chat with Us!</div>
+            <div id="chatbox-messages"></div>
+            <div id="chatbox-input">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <button id="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+            <!-- Header start -->
+            <header class="header02">
+
+
+                <!--header -->
+                <div class="header-main">
+                    <div class="container d-flex align-items-center">
+                        <a class="logo d-inline-flex" href="{{url_for('user_dashboard')}}">
+                            <img src="/static/images/logo.svg" alt="" />
+                        </a>
+                        <nav class="primary-menu ml-auto">
+                            <a id="mobile-menu-toggler" href="#"><i class="fas fa-bars"></i></a>
+                            <ul>
+                                <li class="current-menu-item has-menu-child">
+                                    <a href="{{url_for('user_dashboard')}}">DashBoard</a>
+
+                                </li>
+                                <li class="current-menu-item"><a href="{{url_for('crypto')}}">Crypto</a></li>
+                                <li class="has-menu-child">
+                                    <a href="#">KYC</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{url_for('kyc_application')}}">KYC Application</a></li>
+                                        <li><a href="{{url_for('kyc_details')}}">KYC Details</a></li>
+
+                                    </ul>
+                                </li>
+                                <li class="has-menu-child">
+                                    <a href="#">Transfer</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{url_for('send_money')}}">Send money</a></li>
+                                        <li><a href="{{url_for('transactions')}}">Transaction history</a></li>
+                                    </ul>
+                                </li>
+<!--                                <li class="has-menu-child">-->
+<!--                                    <a href="profile-cards.html">Virtual Card</a>-->
+<!--                                    &lt;!&ndash; <ul class="sub-menu">-->
+<!--                                        <li><a href="#">Blog</a></li>-->
+<!--                                        <li><a href="#">Blog Details</a></li>-->
+<!--                                    </ul> &ndash;&gt;-->
+<!--                                </li>-->
+                                <li><a href="{{url_for('loan')}}">Loan</a></li>
+                                <li class="has-menu-child pro-menu-drop">
+                                    <a href="#">
+                                        <div class="header-pro-thumb">
+                                            <img class="rounded-circle" src="/uploads/{{ user.passport_photo }}" alt="" />
+                                        </div>
+                                        {{user.username}} <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu-md sub-menu profile-drop">
+                                        <li class="dropdown-header">
+                                            <div>
+                                                <h5 class="hidden-xs m-b-0 text-primary text-ellipsis">"{{user.username}}"</h5>
+                                                <div class="small text-muted"><span>Membership ID P14362606</span></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <hr class="mx-n3 mt-0" />
+                                        </li>
+                                        <li class="nav__create-new-profile-link">
+                                            <a href="{{url_for('profile')}}">
+                                                <span>View personal profile</span>
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <!-- <li class="nav__dropdown-menu-items">
+                                            <a href="profile-notifications.html">
+                                                <i class="icon icon-setting"></i>
+                                                <span>Settings</span>
+                                            </a>
+                                        </li> -->
+                                        <li class="nav__dropdown-menu-items">
+                                            <a href="{{url_for('logout')}}"><i class="icon icon-logout"></i><span>Logout</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!--end main header-->
+            </header>
+            <!-- Admin End of Hero section-->
+
+            <!-- Profile bar -->
+            <div class="profilebar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="balance-area">
+                                <select name="ctl00$ddlAccounts" class="custom-select" style="width: 200px">
+                                    <option selected="selected" value="00">EUR Balance</option>
+                                    <option value="01">GBP Balance</option>
+                                    <option value="02">└ Prepaid Card - XXXX-2949</option>
+                                    <option value="03">Prepaid Card - XXXX-9981</option>
+                                    <option value="04" style="background-color: red; color: #fff">Prepaid Card - XXXX-6209</option>
+                                </select>
+                                <h1 class="total-blance">
+                                    ${{user.balance}}
+                                    <a href="#" class="reload-btn"><i class="fas fa-sync"></i></a>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="local-time">
+                                <p><b>Local Time:</b> "{{current_time}}"</p>
+                            </div>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <div class="local-time">-->
+<!--                                <p><b>Last Visit:</b>1/12/2020 - 12:00PM</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="col notify-col text-right">
+                            <div class="notify-btn">
+                                <a href="profile-notifications.html"><i class="far fa-bell"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Profile bar -->
+
+            <!-- Content -->
+            <div id="content" class="py-4">
+                <div class="container">
+                    <div class="row">
+                        <!-- Left sidebar -->
+                        <aside class="col-lg-3 sidebar">
+
+
+                            <div class="widget admin-widget">
+                                <i class="fas fa-coins admin-overlay-icon"></i>
+                                <h2>Earn $25</h2>
+                                <p>Have questions or concerns regrading</p>
+                                <a href="#" class="btn btn-default btn-center"><span>Refer A friend</span></a>
+                            </div>
+
+                            <div class="widget admin-widget">
+                                <i class="fas fa-comments admin-overlay-icon"></i>
+                                <h2>Need Help?</h2>
+                                <p>
+                                    Have questions or concerns regrading your account?<br />
+                                    Our experts are here to help!.
+                                </p>
+                                <a href="#" class="btn btn-default btn-center"><span>Start Chat</span></a>
+                            </div>
+                        </aside>
+                        <!-- Left Panel End -->
+
+                        <div class="col-lg-9">
+                            <div class="profile-content">
+                                <h3 class="admin-heading">Send Money</h3>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{url_for('send_money')}}">Send</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="{{url_for('send_money_details')}}">Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{url_for('send_money_confirm')}}">Confirm</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{url_for('send_money_success')}}">Success</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                        <form id="deposit-send-money" action="/send_money_details" enctype="multipart/form-data" method="POST" class="form bg-offwhite py-4">
+    <div class="form-group">
+        <label for="youSend">You Send</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text currency-icon">$</span>
+            </div>
+            <input type="text" name="amount" class="form-control" id="youSend" placeholder="Amount" required>
+<!--            <div class="input-group-append">-->
+<!--                <span class="input-group-text p-0">-->
+<!--                    <select name="currency" id="youSendCurrency" class="form-control bg-transparent" required>-->
+<!--                        <option value="USD">USD</option>-->
+<!--                        <option value="EUR">EUR</option>-->
+<!--                        &lt;!&ndash; Add more currencies as needed &ndash;&gt;-->
+<!--                    </select>-->
+<!--                </span>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="bankName">Bank Name</label>
+        <select class="form-control" id="bankName" name="bank_name" required>
+            {% for bank in banks %}
+            <option value="{{ bank }}">{{ bank }}</option>
+            {% endfor %}
+            <!-- Add more banks as needed -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="recipientName">Name of Recipient</label>
+        <input type="text" class="form-control" id="recipientName" name="beneficiary_account_holder" required placeholder="Enter recipient's name">
+    </div>
+
+    <div class="form-group">
+        <label for="pin">PIN</label>
+        <div class="input-group">
+            <input type="text" name="pin1" class="form-control pin-input" maxlength="1" id="pin1" oninput="moveToNext(this, 'pin2')" required>
+            <input type="text" name="pin2" class="form-control pin-input" maxlength="1" id="pin2" oninput="moveToNext(this, 'pin3')" required>
+            <input type="text" name="pin3" class="form-control pin-input" maxlength="1" id="pin3" oninput="moveToNext(this, 'pin4')" required>
+            <input type="text" name="pin4" class="form-control pin-input" maxlength="1" id="pin4" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" class="form-control p-3" rows="8" id="description" required placeholder="Payment Description"></textarea>
+    </div>
+                                             <!-- Flash messages block -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <p class="text-left"><b>Transaction fees</b></p>
+        </div>
+        <div class="col-md-6 text-right">
+            <span class="bg-success free-charge">Free</span> <del>7.00 USD</del>
+        </div>
+    </div>
+    <hr />
+
+    <div class="form-group">
+        <input type="submit" value="Send Money" class="btn btn-primary">
+    </div>
+
+</form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Content end -->
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const pinInputs = document.querySelectorAll('.pin-input');
+
+                    pinInputs.forEach((input, index) => {
+                        input.addEventListener('input', () => {
+                            if (input.value.length === input.maxLength && index < pinInputs.length - 1) {
+                                pinInputs[index + 1].focus();
+                            }
+                        });
+
+                        input.addEventListener('keydown', (event) => {
+                            if (event.key === 'Backspace' && input.value === '' && index > 0) {
+                                pinInputs[index - 1].focus();
+                            }
+                        });
+                    });
+                });
+
+                function toggleCreatePinForm() {
+                    var show_pin = document.getElementById('createPinForm');  // Get the element
+
+                    if (show_pin.style.display === 'none' || show_pin.style.display === '') {
+                        show_pin.style.display = 'block';  // Show the form
+                    } else {
+                        show_pin.style.display = 'none';  // Hide the form
+                    }
+                }
+                function validatePin() {
+                    let removeForm = document.getElementById('createPinForm');
+                    let pinError = document.getElementById('pinError');
+                    let pinSuccess = document.getElementById('pinSuccess');
+
+                    // Get the values from both PIN and Confirm PIN input fields
+                    let pin1 = document.getElementById('pin1').value;
+                    let pin2 = document.getElementById('pin2').value;
+                    let pin3 = document.getElementById('pin3').value;
+                    let pin4 = document.getElementById('pin4').value;
+
+                    let confirmPin1 = document.getElementById('confirmPin1').value;
+                    let confirmPin2 = document.getElementById('confirmPin2').value;
+                    let confirmPin3 = document.getElementById('confirmPin3').value;
+                    let confirmPin4 = document.getElementById('confirmPin4').value;
+
+                    // Concatenate to form the complete PIN and Confirm PIN
+                    let pin = pin1;
+                    let confirmPin = confirmPin1 + confirmPin2 + confirmPin3 + confirmPin4;
+
+                    console.log("PIN:", pin);  // Debugging: check the PIN value
+                    console.log("Confirm PIN:", confirmPin);  // Debugging: check the Confirm PIN value
+
+                    // Check if the PIN and Confirm PIN match
+                    if (pin === confirmPin && pin.length === 4) {
+                        // PINs match, hide error and display success message
+                        pinError.style.display = 'none';
+                        pinSuccess.style.display = 'block';
+                        pinSuccess.style.opacity = '1';
+                        removeForm.style.display = 'none';  // Optionally hide the form after successful submission
+
+                        // Fade out the success message after 1 second (1000 ms)
+                        setTimeout(() => {
+                            pinSuccess.style.opacity = '0';  // Start fading out
+                            setTimeout(() => {
+                                pinSuccess.style.display = 'none';  // Hide it completely after fading out
+                            }, 500);  // Wait for the fade-out transition to complete (500ms)
+                        }, 1000);  // Show the message for 1 second before fading out
+                    } else {
+                        // PINs do not match, display error message
+                        pinError.style.display = 'block';
+                        pinSuccess.style.display = 'none';
+                    }
+                }
+
+
+            </script>
+        </div>
+        <!-- Document Wrapper end -->
+
+        <!-- Script -->
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/js/moment.min.js"></script>
+        <script src="/static/js/daterangepicker.js"></script>
+        <script src="/static/js/bootstrap-select.min.js"></script>
+        <script src="/static/js/custom.js"></script>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/daterangepicker.js"></script>
+    <script src="/static/js/bootstrap-select.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/chatbot.js"></script>
+
+    <script>
+        const socket = io();
+
+        function toggleChatbox() {
+            const chatbox = document.getElementById('chatbox-container');
+            chatbox.style.display = chatbox.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value.trim();
+
+            if (messageText) {
+                socket.emit('sendMessage', messageText);
+                messageInput.value = '';
+            }
+        }
+
+        socket.on('receiveMessage', (message) => {
+            const messageContainer = document.getElementById('chatbox-messages');
+            const newMessage = document.createElement('div');
+            newMessage.textContent = message;
+            newMessage.className = 'received-message';
+            messageContainer.appendChild(newMessage);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        });
+    </script>
+    </body>
+
+<!-- Mirrored from demo.themeies.com/roysha-html/admin-new/send-money-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:19:35 GMT -->
+</html>

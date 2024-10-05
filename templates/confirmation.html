@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from demo.themeies.com/roysha-html/admin-new/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Sep 2024 01:18:30 GMT -->
+<head>
+        <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Pelican - Money Transfer and Online Payments HTML Template</title>
+    <link rel="shortcut icon" href="/static/images/favicon.svg" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+    <link rel="stylesheet" href="/static/css/chatbot.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        .container_loan {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 20vh;
+        }
+        h1 {
+            color: #2c5282;
+            font-size: 24px;
+        }
+        p {
+            font-size: 16px;
+            color: #4a5568;
+            margin: 10px 0;
+        }
+        .details {
+            background-color: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .details p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #2d3748;
+        }
+        .ref-number {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c5282;
+        }
+        .btn-close {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .btn-close:hover {
+            background-color: #2c5282;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-wrapper">
+        <!-- Header start -->
+        <header class="header02">
+            
+
+            <!--header -->
+            <div class="header-main">
+                <div class="container d-flex align-items-center">
+                    <a class="logo d-inline-flex" href="dashboard.html">
+                        <img src="/static/images/logo.svg" alt="" />
+                    </a>
+                    <nav class="primary-menu ml-auto">
+                        <a id="mobile-menu-toggler" href="#"><i class="fas fa-bars"></i></a>
+                        <ul>
+                            <li class="current-menu-item has-menu-child">
+                                <a href="{{url_for('user_dashboard')}}">DashBoard</a>
+                               
+                            </li>
+                            <li class="current-menu-item"><a href="{{url_for('crypto')}}">Crypto</a></li>
+                            <li class="has-menu-child">
+                                <a href="#">KYC</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{url_for('kyc_application')}}">KYC Application</a></li>
+                                    <li><a href="{{url_for('kyc_details')}}">KYC Details</a></li>
+                                    
+                                </ul>
+                            </li>
+                            <li class="has-menu-child">
+                                <a href="">Transfer</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{url_for('send_money')}}">Send money</a></li>
+                                    <li><a href="{{url_for('transactions')}}">Transaction history</a></li>
+                                </ul>
+                            </li>
+<!--                            <li class="has-menu-child">-->
+<!--                                <a href="profile-cards.html">Virtual Card</a>-->
+<!--                                &lt;!&ndash; <ul class="sub-menu">-->
+<!--                                    <li><a href="#">Blog</a></li>-->
+<!--                                    <li><a href="#">Blog Details</a></li>-->
+<!--                                </ul> &ndash;&gt;-->
+<!--                            </li>-->
+                            <li><a href="">Loan</a></li>
+                            <li class="has-menu-child pro-menu-drop">
+                                <a href="#">
+                                    <div class="header-pro-thumb">
+                                        <img class="rounded-circle" src="/uploads/{{ user.passport_photo }}" alt="" />
+                                    </div>
+                                    {{ user.username }} <i class="fas fa-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu-md sub-menu profile-drop">
+                                    <li class="dropdown-header">
+                                        <div>
+                                            <h5 class="hidden-xs m-b-0 text-primary text-ellipsis">{{ user.username }}</h5>
+                                            <div class="small text-muted"><span>Membership ID P14362606</span></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <hr class="mx-n3 mt-0" />
+                                    </li>
+                                    <li class="nav__create-new-profile-link">
+                                        <a href="{{url_for('profile')}}">
+                                            <span>View personal profile</span>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    
+                                    <li class="nav__dropdown-menu-items">
+                                        <a href="{{url_for('logout')}}"><i class="icon icon-logout"></i><span>Logout</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!--end main header-->
+        </header>
+<!--<div class="container">-->
+<!--    <h1>Your Request has been Submitted</h1>-->
+<!--    <p class="ref-number">Ref Number: SKY-UUNDGFZXZU</p>-->
+<!--    <div class="details">-->
+<!--        <p><strong>Amount:</strong> 1,000 USD</p>-->
+<!--        <p><strong>Status:</strong> Pending</p>-->
+<!--        <p><strong>Repayment Tenure:</strong> 6 Months</p>-->
+<!--        <p><strong>Monthly Repayment Amount:</strong> 221.83 USD</p>-->
+<!--        <p><strong>Management Fee:</strong> 30 USD</p>-->
+<!--        <p><strong>Loan/Credit Facility:</strong> Commercial Mortgage</p>-->
+<!--    </div>-->
+<!--    <button class="btn-close" onclick="window.location.href='dashboard.html'">Close</button>-->
+<!--</div>-->
+</div>
+
+</body>
+</html>
